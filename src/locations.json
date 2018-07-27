@@ -1,0 +1,56 @@
+[
+	{
+		"key": "key-kamppi",
+		"title": "Kamppi",
+		"name": "Kamppi",
+		"position": { "lat": 59.22293, "lng": 17.9335 }
+	},
+	{
+		"key": "key-university",
+		"title": "University of ",
+		"name": "University",
+		"position": { "lat": 59.22283, "lng": 17.949 }
+	},
+	{
+		"key": "key-stockmann",
+		"title": "Stockmann",
+		"name": "Stockmann",
+		"position": { "lat": 59.22283, "lng": 17.9422 }
+	},
+	{
+		"key": "key-library",
+		"title": "National Library of",
+		"name": "Library",
+		"position": { "lat": 59.22202, "lng": 17.9502 }
+	},
+	{
+		"key": "key-cathedral",
+		"title": " Cathedral",
+		"name": "Cathedral",
+		"position": { "lat": 59.22202, "lng": 17.9522 }
+	},
+	{
+		"key": "key-south-harbour",
+		"title": "South Harbour, ",
+		"name": "South Harbour",
+		"position": { "lat": 59.22247, "lng": 17.9583 }
+	},
+	{
+		"key": "key-central-station",
+		"title": " Central Station",
+		"name": "Central Station",
+		"position": { "lat": 59.22219, "lng": 17.9413 }
+	},
+	{
+		"key": "key-ice-hall",
+		"title": " Ice Hall",
+		"name": "Ice Hall",
+		"position": { "lat": 59.22291, "lng": 17.9222 }
+	},
+	{
+		"key": "key-hartwall-arena",
+		"title": "Hartwall Arena",
+		"name": "Hartwall Arena",
+		"position": { "lat": 59.22257, "lng": 17.9288 }
+	}
+]

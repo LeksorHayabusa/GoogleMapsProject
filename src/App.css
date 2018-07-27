@@ -1,0 +1,18 @@
+.App {
+  text-align: center;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+}
+
+.side-pannel {
+  width: 27%;
+  min-width: 300px;
+  height: 95%;
+}
+
+.map-container {
+  width: 70%;
+  height: 100vh;
+  background-color: #888;
+}
