@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import MapModule from './MapModule'
+import SideContrainer from './SideContainer'
 import './App.css';
 
 
@@ -9,7 +10,8 @@ class App extends Component {
         src: "https://maps.googleapis.com/maps/api/js?key=AIzaSyAg2rdz3d-A6_jSjvEE0ki5zfg9-NOhJMo&v=3&callback=initMap",
         async: '',
         defer: ''
-    }]
+    }],
+    inputField: ""
   }
 
   loadLibs(libs) {
@@ -30,7 +32,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h1 className="App-header">Googlemapsapp</h1>
+        <SideContrainer
+          inputField={ this.state.inputField }
+        />
         <MapModule/>
       </div>
       
