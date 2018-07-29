@@ -7,21 +7,25 @@ class MapModule extends Component {
     window.initMap = this.initMap
 	}
 
-	placeMarker = (map) => {
+	placeMarker = (map, infoWindow) => {
 		const markers = [];
-		Locations.forEach( el => {
+		Locations.forEach( element => {
 			let marker = new window.google.maps.Marker({
-				position: el.position,
-				title: el.title,
+				position: element.position,
+				title: element.title,
 				map: map
 			})
 			markers.push(marker)
 			marker.addListener('click', () => {
-				infoWindow.setContent(`this is content of ${el.title}`)
-				infoWindow.open(map, marker)
-				infoWindow.addListener('closeclick', () => infoWindow.close())
+				this.createInfoWindow(map, marker, infoWindow, element)
 			})
 		})
+	}
+
+	createInfoWindow = (map, marker, infoWindow, element) => {
+		infoWindow.setContent(`this is content of ${element.title}`)
+		infoWindow.open(map, marker)
+		infoWindow.addListener('closeclick', () => infoWindow.close())
 	}
 
 	initMap = () => {
@@ -31,7 +35,7 @@ class MapModule extends Component {
 			center: {lat: 60.1719, lng: 14.9314},
 			zoom: 11
 		})
-		this.placeMarker(map)
+		this.placeMarker(map, infoWindow)
 	}
   
   render() {
