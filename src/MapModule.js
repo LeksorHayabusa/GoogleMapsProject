@@ -1,15 +1,31 @@
 import React, { Component } from 'react'
-import * as Locations from './locations.json'
+import Locations from './locations.json'
 
 class MapModule extends Component {
+	state = {
+		requestedLocs: [],
+		matchedLocs:[]
+	}
 
-	componentDidMount() {
-    window.initMap = this.initMap
+	separateMarkers = () => {
+		const 
+			query = this.props.query,
+			regExp = new RegExp( query ),
+			{ requestedLocs} = this.state.requestedLocs;
+		this.state.matchedLocs = Locations.filter( loc => regExp.test(loc.title)).map( el => el);
+		let locs = this.state.matchedLocs;
+		this.setState({ requestedLocs: locs })
+		//console.log('separated markers: ')
+		//console.log(this.state.requestedLocs)
 	}
 
 	placeMarker = (map, infoWindow) => {
-		const markers = [];
-		Locations.forEach( element => {
+		//console.log('special message: ' + this.props.query)
+		this.separateMarkers()
+		const 
+			markers = [],
+			locs = this.state.requestedLocs;
+		locs.forEach( element => {
 			let marker = new window.google.maps.Marker({
 				position: element.position,
 				title: element.title,
@@ -32,10 +48,18 @@ class MapModule extends Component {
 		const mapContainer = document.getElementById('map');
 		const infoWindow = new window.google.maps.InfoWindow()
 		const map = new window.google.maps.Map(mapContainer,{
-			center: {lat: 60.1719, lng: 14.9314},
-			zoom: 11
+			center: {lat: 59.22283, lng: 17.9422},
+			zoom: 14
 		})
 		this.placeMarker(map, infoWindow)
+	}
+
+  shouldComponentUpdate(nextProps, nextState) {
+		return this.props.query != nextProps	
+	}
+
+	componentDidMount() {
+    window.initMap = this.initMap
 	}
   
   render() {

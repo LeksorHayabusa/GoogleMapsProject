@@ -11,7 +11,8 @@ class App extends Component {
         async: '',
         defer: ''
     }],
-    inputField: ""
+    locs: [],
+    query: ''
   }
 
   loadLibs(libs) {
@@ -33,9 +34,15 @@ class App extends Component {
     return (
       <div className="App">
         <SideContrainer
-          inputField={ this.state.inputField }
+          loc='{ this.state.locs }'
+          sendNewRequest={(obj) => {
+            this.setState(obj)
+          }}
+          query={ this.state.query }
         />
-        <MapModule/>
+        <MapModule
+          query={ this.state.query }
+        />
       </div>
       
     );
