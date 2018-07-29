@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
 import * as Locations from './locations.json'
-//npm i -S google-map-react  is the same as npm install --save google-map-react
 
 class MapModule extends Component {
+	constructor () {
+		super();
+		//this.initMap = this.initMap.bind(this);
+	}
 
 	componentDidMount() {
     window.initMap = this.initMap
 	}
 
-	placeMarker(map) {
+	placeMarker = (map) => {
 
 		const markers = [];
 		Locations.forEach( el => {
@@ -21,7 +24,7 @@ class MapModule extends Component {
 		})
 	}
 
-	initMap() {
+	initMap = () => {
 		const mapContainer = document.getElementById('map');
 		const infoWindow = new window.google.maps.InfoWindow()
 		const map = new window.google.maps.Map(mapContainer,{
