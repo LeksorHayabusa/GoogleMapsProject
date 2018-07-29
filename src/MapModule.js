@@ -4,44 +4,8 @@ import Locations from './locations.json'
 class MapModule extends Component {
 	state = {
 		requestedLocs: [],
-		matchedLocs:[]
-	}
-
-	separateMarkers = () => {
-		const 
-			query = this.props.query,
-			regExp = new RegExp( query ),
-			{ requestedLocs} = this.state.requestedLocs;
-		this.state.matchedLocs = Locations.filter( loc => regExp.test(loc.title)).map( el => el);
-		let locs = this.state.matchedLocs;
-		this.setState({ requestedLocs: locs })
-		//console.log('separated markers: ')
-		//console.log(this.state.requestedLocs)
-	}
-
-	placeMarker = (map, infoWindow) => {
-		//console.log('special message: ' + this.props.query)
-		this.separateMarkers()
-		const 
-			markers = [],
-			locs = this.state.requestedLocs;
-		locs.forEach( element => {
-			let marker = new window.google.maps.Marker({
-				position: element.position,
-				title: element.title,
-				map: map
-			})
-			markers.push(marker)
-			marker.addListener('click', () => {
-				this.createInfoWindow(map, marker, infoWindow, element)
-			})
-		})
-	}
-
-	createInfoWindow = (map, marker, infoWindow, element) => {
-		infoWindow.setContent(`this is content of ${element.title}`)
-		infoWindow.open(map, marker)
-		infoWindow.addListener('closeclick', () => infoWindow.close())
+		allMarkers: [],
+		matchedMarkers:[]
 	}
 
 	initMap = () => {
@@ -54,15 +18,54 @@ class MapModule extends Component {
 		this.placeMarker(map, infoWindow)
 	}
 
-  shouldComponentUpdate(nextProps, nextState) {
-		return this.props.query != nextProps	
+	placeMarker = (map, infoWindow) => {
+		//creating markers for all locations
+		const allMarkers = this.state.allMarkers;
+		Locations.forEach( element => {
+			let marker = new window.google.maps.Marker({
+				position: element.position,
+				title: element.title,
+				map: map
+			})
+			allMarkers.push(marker)
+			marker.addListener('click', () => {
+				this.createInfoWindow(map, marker, infoWindow, element)
+			})
+		})
+	}
+
+	createInfoWindow = (map, marker, infoWindow, element) => {
+		infoWindow.setContent(`this is content of ${element.title}`)
+		infoWindow.open(map, marker)
+		infoWindow.addListener('closeclick', () => infoWindow.close())
+	}
+
+	separateMarkers = () => {
+		const //taking requested markers to matchedMatkers
+			query = this.props.query,
+			regExp = new RegExp( query ),
+			{ allMarkers } = this.state;
+		if(!allMarkers) return;
+		this.state.matchedMarkers = allMarkers.filter( marker => regExp.test(marker.title)).map( el => el);
+		this.showLocs()
+	}
+
+	showLocs() {
+		const allMarkers = this.state.allMarkers,
+			matchedMarkers = this.state.matchedMarkers;
+		//we take all unmatched markers and hide `em
+		allMarkers.filter( (marker, i) => marker != matchedMarkers[i])
+			.forEach( marker => marker.setVisible(false))
+		//we show all matched markers
+		matchedMarkers.forEach( marker => marker.setVisible(true))
 	}
 
 	componentDidMount() {
     window.initMap = this.initMap
 	}
-  
+	
   render() {
+		this.separateMarkers()
 		return(
 			<div id="map" className="map-container"></div>
 		)
