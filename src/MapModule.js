@@ -2,17 +2,12 @@ import React, { Component } from 'react'
 import * as Locations from './locations.json'
 
 class MapModule extends Component {
-	constructor () {
-		super();
-		//this.initMap = this.initMap.bind(this);
-	}
 
 	componentDidMount() {
     window.initMap = this.initMap
 	}
 
 	placeMarker = (map) => {
-
 		const markers = [];
 		Locations.forEach( el => {
 			let marker = new window.google.maps.Marker({
@@ -21,6 +16,11 @@ class MapModule extends Component {
 				map: map
 			})
 			markers.push(marker)
+			marker.addListener('click', () => {
+				infoWindow.setContent(`this is content of ${el.title}`)
+				infoWindow.open(map, marker)
+				infoWindow.addListener('closeclick', () => infoWindow.close())
+			})
 		})
 	}
 
