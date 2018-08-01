@@ -6,6 +6,10 @@ class MapModule extends Component {
 		allMarkers: [],
 		matchedMarkers:[]
 	}
+	
+	componentDidMount() {
+    window.initMap = this.initMap
+	}
 
 	initMap = () => {
 		const 
@@ -42,20 +46,22 @@ class MapModule extends Component {
 			allMarkers.push(marker)
 
 			//create a marker listener to open infowindow and description
-			marker.addListener('click', (event) => {
+			marker.addListener('click', () => {
 				this.createInfoWindow(map, marker, infoWindow, element)
+				this.resetAllIcons()
 				marker.setIcon(hightlighedIcon);
-				this.props.setChosenPlace(element, event)//changes location in mainState
+				this.props.setChosenPlace(element)//changes location in mainState
 			})
 
 			//create a marker listener for clicking at the Title list
 			const 
 				listingId = element.title.toLowerCase().replace(/ /g, '_'),
 				domId = document.getElementById(listingId);
-			window.google.maps.event.addDomListener(domId, 'click', () => {
-				allMarkers.forEach( marker => this.changeIcon(marker))
+			window.google.maps.event.addDomListener(domId, 'click', () => 	{
+				this.resetAllIcons();
 				marker.setIcon(hightlighedIcon)
 			})
+
 		})
 	}
 
@@ -70,19 +76,23 @@ class MapModule extends Component {
 		return newIcon
 	}
 
-	resetIcon = (marker) => { //resets marker's icon back to default
-		const defaultIcon = 'ff0000';
-		return marker.setIcon(this.changeIcon(defaultIcon))
+	resetAllIcons = () => { //resets marker's icon back to default
+		const color = 'ff0000';
+		this.state.allMarkers.forEach( markerOld => markerOld.setIcon(this.changeIcon(color)))
 	}
 
 	createInfoWindow = (map, marker, infoWindow, element) => {
+		const 
+			defaultIcon = this.changeIcon('ff0000'),
+			ulElements = document.getElementById('responseList');
 		infoWindow.setContent(element.title)
 		infoWindow.open(map, marker)
 		infoWindow.addListener('closeclick', () => {
-			this.resetIcon(marker)
+			this.resetAllIcons()
 			infoWindow.close()
 		})
-		infoWindow.addListener('content_changed', () => this.resetIcon(marker))
+		infoWindow.addListener('content_changed', () => this.resetAllIcons())
+		window.google.maps.event.addDomListener(ulElements, 'click', () => infoWindow.close())
 	}
 
 	separateMarkers = () => {
@@ -103,20 +113,6 @@ class MapModule extends Component {
 			.forEach( marker => marker.setVisible(false))
 		//we show all matched markers
 		matchedMarkers.forEach( marker => marker.setVisible(true))
-	}
-
-	componentDidUpdate(prevState) {
-/* 		if( !prevState.mainState.chosenPlace 
-			&& !this.props.mainState.chosenPlace.title ) return;
-		if(prevState.mainState.chosenPlace.title)
-		if(this.props.mainState.chosenPlace.title != prevState.mainState.chosenPlace.title) {
-			console.log(this.props.mainState.chosenPlace)
-			console.log(prevState.mainState.chosenPlace) 
-		}*/
-	}
-	
-	componentDidMount() {
-    window.initMap = this.initMap
 	}
 	
   render() {

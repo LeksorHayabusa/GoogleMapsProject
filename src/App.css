@@ -45,7 +45,13 @@ li {
   line-height: 1.5em;
   word-wrap: none;
   cursor: pointer;
+  padding-left: 10px;
+  width: 80%;
+}
 
+li.highlighted {
+  color: #000;
+  background: #f3f3f3;
 }
 
 .summary {
@@ -70,6 +76,7 @@ span.description {
 
 h3.description {
   font-style: italic;
+  padding-top: 15px;
 }
 
 .placeholder {
@@ -81,8 +88,38 @@ h3.description {
   .App {
     flex-flow: column-reverse nowrap;
   }
+
   .map-container {
     width: 100%;
     height: 50vh;
+  }
+
+  .side-container{
+    width: 100%;
+    flex-flow: row wrap;
+  }
+
+  h1 {
+    flex-grow: 4;
+    width: 100%;
+    margin: 10px auto;
+  }
+  
+  .query-field {
+    margin: 10px;
+  }
+
+  .summary {
+    margin-top: 0;
+  }
+
+  .query-field,
+  .summary {
+    flex-grow: 1;
+    width: 40%;
+  }
+
+  h3.description {
+    margin-top: 0;
   }
 }

@@ -13,16 +13,11 @@ class App extends Component {
         async: '',
         defer: ''
     }],
-    thirdStyles:[ {
-      href: "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css",
-      rel: "stylesheet",
-      crossorigin: "anonymous",
-      integrity: "sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-    }],
     locs: [],
     query: '',
-    chosenPlace:'',
-    description: ''
+    chosenPlace: '',
+    description: '',
+		chosenElement: ''
   }
 
   loadLibs(libs) {
@@ -35,17 +30,6 @@ class App extends Component {
       }
     })
   }
-
-/*   loadStyles(styles) {
-    styles.forEach( attr => {
-      const link = document.createElement('link');
-      const child = document.getElementById('root');
-      document.body.insertBefore(link, child)
-      for (let key in attr){
-        link.setAttribute(key, attr[key])
-      }
-    })
-  } */
 
   setChosenPlace = (place, event) => {
     //console.log(event.instance)

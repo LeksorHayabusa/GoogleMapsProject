@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 
 class SideContainer extends Component {
-	state = {
-		visibleMarkers: []
-	}
 
 	updateQuery = (e) => {
-		const queryEvent = e.target.value,
+		const 
+			queryEvent = e.target.value,
 			query = this.props.mainState.query;
 		//this.handleQuery(query)
 		this.props.sendNewRequest({ query: queryEvent })
@@ -22,7 +20,10 @@ class SideContainer extends Component {
 	}
 
 	render() {
-		const { query, description } = this.props.mainState;
+		const { 
+			query, 
+			description, 
+			chosenPlace } = this.props.mainState;
 		return (
 			<div className="side-container">
 				<h1 className="header">Hamburg online!</h1>
@@ -32,7 +33,7 @@ class SideContainer extends Component {
 						id="addressLine" 
 						aria-labelledby="filter locations"
 						placeholder="type a location to visit" 
-						onChange={ e => { this.updateQuery(e)	}}
+						onChange={ e => this.updateQuery(e)	}
 						value={ query }
 						tabIndex={0}
 					/>
@@ -46,10 +47,11 @@ class SideContainer extends Component {
 								key={el.title}
 								tabIndex={0}
 								role="button"
+								className={(chosenPlace.title === el.title)
+									 ? 'highlighted' : ''}
 								id={el.title.toLowerCase().replace(/ /g, '_')}
-								onClick={(event) => {
-									this.showDescription(el)}}
-								onKeyPress={() => {this.showDescription(el)}}
+								onClick={(event) => this.showDescription(el)}
+								onKeyPress={() => this.showDescription(el)}
 							>{el.title}</li>)
 						}
 				</ul>
@@ -67,3 +69,7 @@ class SideContainer extends Component {
 }
 
 export default SideContainer
+/* 
+
+			//create a marker listener to open infowindow and description
+ */
