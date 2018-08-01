@@ -1,56 +1,30 @@
 [
 	{
-		"key": "key-kamppi",
-		"title": "Kamppi",
-		"name": "Kamppi",
-		"position": { "lat": 59.22293, "lng": 17.9335 }
+		"title": "Elbphilharmonie",
+		"position": { "lat": 53.541389, "lng": 9.984167 }
 	},
 	{
-		"key": "key-university",
-		"title": "University of ",
-		"name": "University",
-		"position": { "lat": 59.22283, "lng": 17.949 }
+		"title": "Speicherstadt",
+		"position": { "lat": 53.54333, "lng": 9.99194 }
 	},
 	{
-		"key": "key-stockmann",
-		"title": "Stockmann",
-		"name": "Stockmann",
-		"position": { "lat": 59.22283, "lng": 17.9422 }
+		"title": "Miniatur Wunderland",
+		"position": { "lat": 53.543729, "lng": 9.988516 }
 	},
 	{
-		"key": "key-library",
-		"title": "National Library of",
-		"name": "Library",
-		"position": { "lat": 59.22202, "lng": 17.9502 }
+		"title": "Reeperbahn",
+		"position": { "lat": 53.542997828 , "lng": 9.9573628372 }
 	},
 	{
-		"key": "key-cathedral",
-		"title": " Cathedral",
-		"name": "Cathedral",
-		"position": { "lat": 59.22202, "lng": 17.9522 }
+		"title": "Tierpark Hagenbeck",
+		"position": { "lat": 53.59639, "lng": 9.93778 }
 	},
 	{
-		"key": "key-south-harbour",
-		"title": "South Harbour, ",
-		"name": "South Harbour",
-		"position": { "lat": 59.22247, "lng": 17.9583 }
+		"title": "Kunsthalle Hamburg",
+		"position": { "lat": 53.55500, "lng": 10.00278 }
 	},
 	{
-		"key": "key-central-station",
-		"title": " Central Station",
-		"name": "Central Station",
-		"position": { "lat": 59.22219, "lng": 17.9413 }
-	},
-	{
-		"key": "key-ice-hall",
-		"title": " Ice Hall",
-		"name": "Ice Hall",
-		"position": { "lat": 59.22291, "lng": 17.9222 }
-	},
-	{
-		"key": "key-hartwall-arena",
-		"title": "Hartwall Arena",
-		"name": "Hartwall Arena",
-		"position": { "lat": 59.22257, "lng": 17.9288 }
+		"title": "Elbe Tunnel (1911)",
+		"position": { "lat": 53.545889, "lng": 9.966556 }
 	}
 ]

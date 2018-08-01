@@ -5,13 +5,6 @@
   justify-content: center;
 }
 
-li {
-  list-style: none;
-  font-size: 1.4em;
-  line-height: 1.5em;
-  word-wrap: none;
-}
-
 .side-container {
   width: 27%;
   min-width: 300px;
@@ -35,10 +28,47 @@ li {
   height: 40vh;
 }
 
+#responseList {
+  overflow: auto;
+  height: calc(100vh - 65vh);
+}
+
+li {
+  display: block;
+  list-style: none;
+  font-size: 1.4em;
+  line-height: 1.5em;
+  word-wrap: none;
+  cursor:pointer;
+}
+
 .summary {
   height: 40vh;
-  border: rgb(133, 133, 133) 1px solid;
   border-radius: 10px;
+  margin: auto 10px;
+}
+
+.description-box {
+  overflow-y: scroll;
+  padding: 10px;
+  height: calc(40vh - 20px);
+}
+
+.description {
+  line-height: 0.1em;
+}
+
+span.description {
+  color:lightgray;
+}
+
+h3.description {
+  font-style: italic;
+}
+
+.placeholder {
+  font-style: italic;
+  color: darkgray;
 }
 
 @media only screen and (max-width: 700px) {

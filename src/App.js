@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import fetchJsonp from 'fetch-jsonp'
 import MapModule from './MapModule'
 import SideContrainer from './SideContainer'
+import Locations from './locations.json'
 import './App.css';
 
 
@@ -12,7 +14,9 @@ class App extends Component {
         defer: ''
     }],
     locs: [],
-    query: ''
+    query: '',
+    chosenPlace:'',
+    description: ''
   }
 
   loadLibs(libs) {
@@ -26,8 +30,56 @@ class App extends Component {
     })
   }
 
+  setChosenPlace = (place) => {
+    this.setState({ chosenPlace: place })
+    console.log(place)
+    console.log(this.state.chosenPlace)
+    this.getDescription()
+  }
+    
+    getDescription = () => {
+		let result, api, body;
+    const 
+      obj = { "lat": 53.541389, "lng": 9.984167 },
+      place = this.state.chosenPlace,
+      searchLocation = place.title;
+    console.log(place)
+    if(!searchLocation) return;
+		this.prepareAPIQuery(searchLocation)
+	}
+
+	prepareAPIQuery = (locationName) => {
+		let result;
+		const searchLocation = locationName.replace(/ /g, '%20')
+		const api = `https://en.wikipedia.org/w/api.php?format=json&action=query&titles=${searchLocation}&prop=extracts&exintro=&explaintext=&origin=*`;
+		fetchJsonp(api).then(res => res.json()).then(data => {
+				const pageID = Object.keys(data.query.pages)[0];
+        const description = data.query.pages[pageID].extract;
+        this.setNewDescription(description)
+        //this.setChosenPlace(place)
+			})
+			.catch( err => console.log('parsing failed', err))
+    }
+    
+    /* 	applyNewDescription = (newDescription) => {
+      this.props.setNewDescription(newDescription)
+    } */
+    
+    setNewDescription = (newDescription) => {
+      const { chosenPlace }= this.state;
+      if(chosenPlace && !newDescription) 
+      newDescription = 'Click the marker or wait for the internet connection';
+      this.setState({ description: newDescription })
+      console.log(this.state.description)
+  }
+
   componentWillMount() {
     this.loadLibs( this.state.thirdLibs)
+    this.getDescription()
+  }
+
+  componentDidMount() {
+    this.setNewDescription()
   }
 
   render() {
@@ -38,10 +90,20 @@ class App extends Component {
           sendNewRequest={(obj) => {
             this.setState(obj)
           }}
-          query={ this.state.query }
+          loadedLocations={ Locations }
+          mainState={ this.state }
+          setChosenPlace={ this.setChosenPlace }//function
+          //setNewDescription={ this.setNewDescription }//function
+          // query={ this.state.query }
+          // setChosenPlace={ this.setChosenPlace }
+          // setNewDescription={ this.state.description }
         />
         <MapModule
-          query={ this.state.query }
+          loadedLocations={ Locations }
+          mainState={ this.state }
+          // query={ this.state.query }
+          // chosenPlace={ this.state.chosenPlace }
+          setChosenPlace={ this.setChosenPlace }//function
         />
       </div>
       

@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://leksorhayabusa.github.io/GoogleMapsProject/",
   "dependencies": {
+    "fetch-jsonp": "^1.1.3",
     "gh-pages": "^1.2.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
