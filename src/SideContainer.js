@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-class SideContrainer extends Component {
+class SideContainer extends Component {
 	state = {
 		visibleMarkers: []
 	}
@@ -17,7 +17,7 @@ class SideContrainer extends Component {
 		let description;
 		if(!el) return;
 		else description = el.title;
-		const chosenPlace = this.props.chosenPlace;
+		//const chosenPlace = this.props.chosenPlace;
 		console.log(el)
 		this.props.setChosenPlace(el)//changes location in mainState
 	}
@@ -64,4 +64,4 @@ class SideContrainer extends Component {
 	}
 }
 
-export default SideContrainer
+export default SideContainer

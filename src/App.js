@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import fetchJsonp from 'fetch-jsonp'
 import MapModule from './MapModule'
-import SideContrainer from './SideContainer'
+import SideContainer from './SideContainer'
 import Locations from './locations.json'
 import './App.css';
 
@@ -85,8 +85,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <SideContrainer
-          loc='{ this.state.locs }'
+        <SideContainer
+          //loc='{ this.state.locs }'
           sendNewRequest={(obj) => {
             this.setState(obj)
           }}
