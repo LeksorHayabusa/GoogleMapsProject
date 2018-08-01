@@ -40,10 +40,21 @@ class MapModule extends Component {
 				icon: defaultIcon
 			})
 			allMarkers.push(marker)
-			marker.addListener('click', () => {
+
+			//create a marker listener to open infowindow and description
+			marker.addListener('click', (event) => {
 				this.createInfoWindow(map, marker, infoWindow, element)
 				marker.setIcon(hightlighedIcon);
-				this.props.setChosenPlace(element)//changes location in mainState
+				this.props.setChosenPlace(element, event)//changes location in mainState
+			})
+
+			//create a marker listener for clicking at the Title list
+			const 
+				listingId = element.title.toLowerCase().replace(/ /g, '_'),
+				domId = document.getElementById(listingId);
+			window.google.maps.event.addDomListener(domId, 'click', () => {
+				allMarkers.forEach( marker => this.changeIcon(marker))
+				marker.setIcon(hightlighedIcon)
 			})
 		})
 	}
@@ -59,15 +70,19 @@ class MapModule extends Component {
 		return newIcon
 	}
 
+	resetIcon = (marker) => { //resets marker's icon back to default
+		const defaultIcon = 'ff0000';
+		return marker.setIcon(this.changeIcon(defaultIcon))
+	}
+
 	createInfoWindow = (map, marker, infoWindow, element) => {
-		const defaultIcon = this.changeIcon('ff0000');
 		infoWindow.setContent(element.title)
 		infoWindow.open(map, marker)
 		infoWindow.addListener('closeclick', () => {
-			marker.setIcon(defaultIcon)
+			this.resetIcon(marker)
 			infoWindow.close()
 		})
-		infoWindow.addListener('content_changed', () => marker.setIcon(defaultIcon))
+		infoWindow.addListener('content_changed', () => this.resetIcon(marker))
 	}
 
 	separateMarkers = () => {
@@ -90,6 +105,16 @@ class MapModule extends Component {
 		matchedMarkers.forEach( marker => marker.setVisible(true))
 	}
 
+	componentDidUpdate(prevState) {
+/* 		if( !prevState.mainState.chosenPlace 
+			&& !this.props.mainState.chosenPlace.title ) return;
+		if(prevState.mainState.chosenPlace.title)
+		if(this.props.mainState.chosenPlace.title != prevState.mainState.chosenPlace.title) {
+			console.log(this.props.mainState.chosenPlace)
+			console.log(prevState.mainState.chosenPlace) 
+		}*/
+	}
+	
 	componentDidMount() {
     window.initMap = this.initMap
 	}

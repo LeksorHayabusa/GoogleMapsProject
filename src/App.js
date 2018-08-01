@@ -13,6 +13,12 @@ class App extends Component {
         async: '',
         defer: ''
     }],
+    thirdStyles:[ {
+      href: "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css",
+      rel: "stylesheet",
+      crossorigin: "anonymous",
+      integrity: "sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    }],
     locs: [],
     query: '',
     chosenPlace:'',
@@ -30,11 +36,20 @@ class App extends Component {
     })
   }
 
-  setChosenPlace = (place) => {
-    this.setState({ chosenPlace: place })
-    console.log(place)
-    console.log(this.state.chosenPlace)
-    this.getDescription()
+/*   loadStyles(styles) {
+    styles.forEach( attr => {
+      const link = document.createElement('link');
+      const child = document.getElementById('root');
+      document.body.insertBefore(link, child)
+      for (let key in attr){
+        link.setAttribute(key, attr[key])
+      }
+    })
+  } */
+
+  setChosenPlace = (place, event) => {
+    //console.log(event.instance)
+    this.setState({ chosenPlace: place }, () => this.getDescription())
   }
     
     getDescription = () => {
@@ -43,7 +58,6 @@ class App extends Component {
       obj = { "lat": 53.541389, "lng": 9.984167 },
       place = this.state.chosenPlace,
       searchLocation = place.title;
-    console.log(place)
     if(!searchLocation) return;
 		this.prepareAPIQuery(searchLocation)
 	}
@@ -70,11 +84,11 @@ class App extends Component {
       if(chosenPlace && !newDescription) 
       newDescription = 'Click the marker or wait for the internet connection';
       this.setState({ description: newDescription })
-      console.log(this.state.description)
   }
 
   componentWillMount() {
     this.loadLibs( this.state.thirdLibs)
+//    this.loadStyles( this.state.thirdStyles)
     this.getDescription()
   }
 
