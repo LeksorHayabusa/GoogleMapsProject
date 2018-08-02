@@ -6,7 +6,6 @@ class SideContainer extends Component {
 		const 
 			queryEvent = e.target.value,
 			query = this.props.mainState.query;
-		//this.handleQuery(query)
 		this.props.sendNewRequest({ query: queryEvent })
 		this.showDescription()
 	}

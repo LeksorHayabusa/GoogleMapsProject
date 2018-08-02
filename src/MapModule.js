@@ -13,7 +13,6 @@ class MapModule extends Component {
 
 	initMap = () => {
 		const 
-			edgeLocation = this.props.loadedLocations[4].position,
 			allMarkers = this.state.allMarkers,
 			mapContainer = document.getElementById('map'),
 			bounds = new window.google.maps.LatLngBounds(),
@@ -82,9 +81,7 @@ class MapModule extends Component {
 	}
 
 	createInfoWindow = (map, marker, infoWindow, element) => {
-		const 
-			defaultIcon = this.changeIcon('ff0000'),
-			ulElements = document.getElementById('responseList');
+		const ulElements = document.getElementById('responseList');
 		infoWindow.setContent(element.title)
 		infoWindow.open(map, marker)
 		infoWindow.addListener('closeclick', () => {

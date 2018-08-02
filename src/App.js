@@ -11,7 +11,8 @@ class App extends Component {
     thirdLibs: [{
         src: "https://maps.googleapis.com/maps/api/js?key=AIzaSyAg2rdz3d-A6_jSjvEE0ki5zfg9-NOhJMo&v=3&callback=initMap",
         async: '',
-        defer: ''
+        defer: '',
+        onerror:"mapError()"
     }],
     locs: [],
     query: '',
@@ -19,6 +20,15 @@ class App extends Component {
     description: '',
 		chosenElement: ''
   }
+
+  mapError = () => {
+    window.gm_authFailure = function () {
+        alert('usage quota exceeded, try later')
+    }
+    document.write('Map load faild, please reload the page later')
+  }
+
+
 
   loadLibs(libs) {
     libs.forEach( lib => {
@@ -32,14 +42,11 @@ class App extends Component {
   }
 
   setChosenPlace = (place, event) => {
-    //console.log(event.instance)
     this.setState({ chosenPlace: place }, () => this.getDescription())
   }
     
     getDescription = () => {
-		let result, api, body;
     const 
-      obj = { "lat": 53.541389, "lng": 9.984167 },
       place = this.state.chosenPlace,
       searchLocation = place.title;
     if(!searchLocation) return;
@@ -47,7 +54,6 @@ class App extends Component {
 	}
 
 	prepareAPIQuery = (locationName) => {
-		let result;
 		const searchLocation = locationName.replace(/ /g, '%20')
 		const api = `https://en.wikipedia.org/w/api.php?format=json&action=query&titles=${searchLocation}&prop=extracts&exintro=&explaintext=&origin=*`;
 		fetchJsonp(api).then(res => res.json()).then(data => {
@@ -56,12 +62,8 @@ class App extends Component {
         this.setNewDescription(description)
         //this.setChosenPlace(place)
 			})
-			.catch( err => console.log('parsing failed', err))
+			.catch( err => this.setNewDescription('you`re offline, repeat your request when internet is available'))
     }
-    
-    /* 	applyNewDescription = (newDescription) => {
-      this.props.setNewDescription(newDescription)
-    } */
     
     setNewDescription = (newDescription) => {
       const { chosenPlace }= this.state;
