@@ -82,7 +82,10 @@ class MapModule extends Component {
 
 	createInfoWindow = (map, marker, infoWindow, element) => {
 		const ulElements = document.getElementById('responseList');
-		infoWindow.setContent(element.title)
+		if(true){}//нужно чтобы отображать картинку
+		infoWindow.setContent(`${element.title}\n <div id="preview">${this.getImages(element)}</div>`)
+		// const previewDiv = document.getElementById('preview');
+		// previewDiv.innerHTML = ``//this.getImage(element.title);
 		infoWindow.open(map, marker)
 		infoWindow.addListener('closeclick', () => {
 			this.resetAllIcons()
@@ -90,6 +93,34 @@ class MapModule extends Component {
 		})
 		infoWindow.addListener('content_changed', () => this.resetAllIcons())
 		window.google.maps.event.addDomListener(ulElements, 'click', () => infoWindow.close())
+	}
+	
+	getImages = (element) => {
+		let imgListURL;
+		let promise = new Promise((res, rej) => {
+			res = this.fetchImages(element);
+		})
+		.then(res => console.log(res))
+		let html = "";
+		imgListURL.forEach( el => console.log)
+		imgListURL.map(url => 	
+			html += `<img src='${url}'' alt="the photo of ${element.title}" width="300px">`)
+		//console.log(html)
+		return html
+	}
+
+	fetchImages = (element) => {
+		const title = element.title.replace(/ /g, '+')
+		const url = `https://pixabay.com/api/?key=4104852-aa3fef8040189bb5d796bb247&q=${title}&image_type=photo&per_page=3`,
+		body = {};
+		let imgListURL = [];
+		fetch(url, body)
+			.then(res => res.json())
+			.then( data => data.hits.map( el => {
+				imgListURL.push(el.webformatURL)
+				console.log(imgListURL)
+				return imgListURL
+			}))
 	}
 
 	separateMarkers = () => {
@@ -111,6 +142,7 @@ class MapModule extends Component {
 		//we show all matched markers
 		matchedMarkers.forEach( marker => marker.setVisible(true))
 	}
+
 	
   render() {
 		this.separateMarkers()
