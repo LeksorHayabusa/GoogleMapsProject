@@ -44,9 +44,9 @@ class MapModule extends Component {
 			})
 			allMarkers.push(marker)
 
-			//create a marker listener to open infowindow and description
+			//create a marker listener at the marker
 			marker.addListener('click', () => {
-				this.createInfoWindow(map, marker, infoWindow, element)
+				this.openInfoWindow(map, marker, infoWindow, element)
 				this.resetAllIcons()
 				marker.setIcon(hightlighedIcon);
 				this.props.setChosenPlace(element)//changes location in mainState
@@ -75,17 +75,20 @@ class MapModule extends Component {
 		return newIcon
 	}
 
-	resetAllIcons = () => { //resets marker's icon back to default
+	resetAllIcons = () => { //resets marker's icon back to default 
 		const color = 'ff0000';
 		this.state.allMarkers.forEach( markerOld => markerOld.setIcon(this.changeIcon(color)))
 	}
 
-	createInfoWindow = (map, marker, infoWindow, element) => {
+	openInfoWindow = (map, marker, infoWindow, element) => {
 		const ulElements = document.getElementById('responseList');
-		if(true){}//нужно чтобы отображать картинку
-		infoWindow.setContent(`${element.title}\n <div id="preview">${this.getImages(element)}</div>`)
-		// const previewDiv = document.getElementById('preview');
-		// previewDiv.innerHTML = ``//this.getImage(element.title);
+		infoWindow.setContent(
+			`${element.title}\n 
+			<div id="preview">
+				${this.getImages(element)}
+			</div>
+			<br>
+			<span> provided by Pixabay</span>`)
 		infoWindow.open(map, marker)
 		infoWindow.addListener('closeclick', () => {
 			this.resetAllIcons()
@@ -96,31 +99,31 @@ class MapModule extends Component {
 	}
 	
 	getImages = (element) => {
-		let imgListURL;
-		let promise = new Promise((res, rej) => {
-			res = this.fetchImages(element);
-		})
-		.then(res => console.log(res))
-		let html = "";
-		imgListURL.forEach( el => console.log)
-		imgListURL.map(url => 	
-			html += `<img src='${url}'' alt="the photo of ${element.title}" width="300px">`)
-		//console.log(html)
-		return html
-	}
-
-	fetchImages = (element) => {
-		const title = element.title.replace(/ /g, '+')
-		const url = `https://pixabay.com/api/?key=4104852-aa3fef8040189bb5d796bb247&q=${title}&image_type=photo&per_page=3`,
-		body = {};
-		let imgListURL = [];
-		fetch(url, body)
+		let wasError;//fallback indicator
+		let page = (!wasError) ? Math.ceil(Math.random() * 4) : 1,//fallback page no
+			title = element.title.match(/[a-z]+/gi).join('+'),
+			url = `https://pixabay.com/api/?
+				key=4104852-aa3fef8040189bb5d796bb247
+				&q=${title}
+				&image_type=photo
+				&per_page=3
+				&page=${page}`;
+		let html = "",
+			imgListURL = [];
+		fetch(url)
+			.catch( er => {//the error is there is no requested page no with next error handling
+				wasError = true
+				throw new Error(er.statusText || er.status)})
 			.then(res => res.json())
 			.then( data => data.hits.map( el => {
-				imgListURL.push(el.webformatURL)
-				console.log(imgListURL)
-				return imgListURL
-			}))
+				html += `<br><img 
+					src='${el.webformatURL}'' 
+					alt="the photo of ${element.title}" 
+					width="200px">`
+				document.getElementById('preview').innerHTML = html;
+				})
+			)
+			.catch(er => this.getImages(element))//fallback second request
 	}
 
 	separateMarkers = () => {
